@@ -3,18 +3,20 @@
                     Gabriel
 -------------------------------------------------------------------
 */
+
 body {
-    display : flex;
+  display: flex;         /* sidebar + main_panel horizontal */
   margin: 0;
   font-family: sans-serif;
 }
+
 .sidebar {
   background: #111;
   color: #fff;
   width: 200px;
   min-height: 100vh;
   padding: 10px;
-  font-family: sans-serif;
+  box-sizing: border-box;
 }
 
 .folder .element {
@@ -23,19 +25,25 @@ body {
   cursor: pointer;
 }
 
-.element > a {
+/* ===== Liens principaux (dossier) ===== */
+.folder > .element > a {
   display: block;
   color: #fff;
   text-decoration: none;
-  padding: 8px;
+  padding: 10px 8px;
   border-radius: 4px;
-  transition: 0.2s;
-}
-
-.element > a:hover {
+  font-weight: bold;
   background: #222;
+  transition: 0.2s;
+  margin-bottom: 5px;
 }
 
+.folder > .element > a:hover {
+  background: #444;
+  transform: translateY(-4px);
+}
+
+/* ===== Liens dropdown ===== */
 .dropdown {
   display: none;
   flex-direction: column;
@@ -44,16 +52,24 @@ body {
 }
 
 .dropdown a {
-  padding: 6px;
+  padding: 6px 14px;
   font-size: 14px;
   color: #ccc;
+  font-weight: normal;
+  text-decoration: none;
+  border-radius: 4px;
 }
 
 .dropdown a:hover {
   color: #fff;
+  transition: all 0.2s ease;
+  background: #333;
+  transform: translateY(-4px);
 }
+
+/* ===== Main panel ===== */
 .main_panel {
-  margin-left: 220px;
+  flex: 1;               /* prend tout l'espace restant à côté de la sidebar */
   padding: 20px;
-  font-family: sans-serif;
+  box-sizing: border-box;
 }
