@@ -5,7 +5,7 @@
 */
 
 body {
-  display: flex;         /* sidebar + main_panel horizontal */
+  display: flex;
   margin: 0;
   font-family: sans-serif;
 }
@@ -69,7 +69,7 @@ body {
 
 /* ===== Main panel ===== */
 .main_panel {
-  flex: 1;               /* prend tout l'espace restant à côté de la sidebar */
+  flex: 1;
   padding: 20px;
   box-sizing: border-box;
 }
