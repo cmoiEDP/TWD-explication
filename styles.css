@@ -120,3 +120,31 @@ a {
   color: #1e90ff;
   text-decoration: none;
 }
+.nav_button {
+  position: fixed;
+  bottom: 20px;
+  left: 200px;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 10px 0;
+  box-sizing: border-box;
+  z-index: 1000;
+}
+.nav_button .next-btn { 
+  background-color: #00000000;
+  color: white;
+  border: 1px solid;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  margin : 20px;
+}
+.nav_button .next-btn:hover {
+  background-color: #333;
+  transform: translateY(-2px);
+  transition: all 0.2s ease;
+}
