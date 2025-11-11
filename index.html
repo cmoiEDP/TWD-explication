@@ -11,7 +11,7 @@
       <div class="element">
         <a>Saisons</a>
         <div class="dropdown">
-                    <a href ="?page=s01">Saison 1</a>
+          <a href ="?page=s01">Saison 1</a>
           <a href ="?page=s02">Saison 2</a>
           <a href ="?page=s03">Saison 3</a>
           <a href ="?page=s04">Saison 4</a>
@@ -171,9 +171,42 @@
         document.querySelectorAll('.dropdown').forEach(d => d.style.display = 'none');
       }
     });
-document.querySelector('.close-warning').addEventListener('click', () => {
-  document.querySelector('.warning').remove();
-});
-</script>
+
+    // Fermeture de l’avertissement spoiler
+    document.querySelector('.close-warning')?.addEventListener('click', () => {
+      document.querySelector('.warning').remove();
+    });
+
+    // ===== Navigation automatique entre saisons =====
+    (function() {
+      const totalSeasons = 11; // adapte si tu rajoutes des saisons
+      const navContainer = document.createElement("div");
+      navContainer.className = "nav_button";
+      let navHTML = "";
+
+      if (page.startsWith("s")) {
+        const currentSeason = parseInt(page.slice(1));
+
+        // Bouton précédent
+        if (currentSeason > 1) {
+          const prevPage = `s${String(currentSeason - 1).padStart(2, "0")}`;
+          navHTML += `<button class="prev-btn" onclick="window.location.href='?page=${prevPage}'"> <img src="src/img/back_arrow.svg" width="18" height="18"> Saison ${currentSeason - 1}</button>`;
+        } else {
+          navHTML += `<button class="home-btn" onclick="window.location.href='?page=landing-page'">Accueil</button>`;
+        }
+
+        // Bouton suivant
+        if (currentSeason < totalSeasons) {
+          const nextPage = `s${String(currentSeason + 1).padStart(2, "0")}`;
+          navHTML += `<button class="next-btn" onclick="window.location.href='?page=${nextPage}'">Saison ${currentSeason + 1} <img src="src/img/arrow.svg" width="18" height="18"></button>`;
+        } else {
+          navHTML += `<button class="home-btn" onclick="window.location.href='?page=landing-page'">Vers le casting</button>`;
+        }
+
+        navContainer.innerHTML = navHTML;
+        mainPanel.appendChild(navContainer);
+      }
+    })();
+  </script>
 </body>
 </html>

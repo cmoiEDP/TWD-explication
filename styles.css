@@ -131,6 +131,13 @@ a {
   padding: 10px 0;
   box-sizing: border-box;
   z-index: 1000;
+  color: white;
+}
+
+.nav_button svg {
+  width: 18px;
+  height: 18px;
+  display: inline-block;
 }
 .nav_button .next-btn { 
   background-color: #00000000;
@@ -148,6 +155,38 @@ a {
   transform: translateY(-2px);
   transition: all 0.2s ease;
 }
+.nav_button .prev-btn {
+    background-color: #00000000;
+  color: white;
+  border: 1px solid;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  margin : 20px;
+}
+.nav_button .prev-btn:hover {
+  background-color: #333;
+  transform: translateY(-2px);
+  transition: all 0.2s ease;
+}
+.nav_button .home-btn {
+    background-color: #00000000;
+  color: white;
+  border: 1px solid;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  margin : 20px;
+}
+.nav_button .home-btn:hover {
+  background-color: #333;
+  transform: translateY(-2px);
+  transition: all 0.2s ease;
+}
 .spoiler {
   color: transparent;
   background-color: #444;
@@ -161,7 +200,7 @@ a {
 .spoiler:hover {
   color: inherit;
   background-color: rgba(100, 100, 100, 0.2);
-  user-select: none;
+  
 }
 .welcome-message {
   background-color: #282c34;
