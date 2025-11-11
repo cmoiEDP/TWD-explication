@@ -83,6 +83,7 @@ body {
   box-sizing: border-box;
 }
 .warning {
+  position: relative;
   background-color: #ffcc00;
   color: #333;
   padding: 15px;
