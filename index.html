@@ -43,7 +43,9 @@
     switch (page) {
       case "landing-page":
         mainPanel.innerHTML = `
-          <h1>Bienvenue sur la page d’accueil</h1>
+          <div class="welcome-message">
+            <h1>Bienvenue sur la page d’accueil</h1>
+          </div>
           <div class="warning">
           <button class="close-warning">✖</button>
           <p>
@@ -51,6 +53,7 @@
           </p>
           <p>Les dits spoilers seront masqués jusqu'au survol.</p>
           </div>
+          <div class="content">
           <p> Voici une liste de tout ce qui est present sur le site :</p>
           <ul>
             <li>Des explications détaillées sur chaque saison de The Walking Dead.</li>
@@ -58,7 +61,7 @@
             <li> Et beaucoup de spoilers ! </li>
           </ul>
           <p> voici un lien utile : <a href ="?page=s01">Saison 1</a></p>
-
+          </div>
             `;
         break;
       case "acteur":
