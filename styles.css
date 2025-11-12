@@ -15,12 +15,13 @@ body {
 .sidebar {
   user-select: none;
   background: #181b20;
+  border: 1px solid;
+  border-image: linear-gradient(to bottom, #575353, #979797) 1;
   color: #fff;
   width: 200px;
   min-height: 100vh;
   padding: 10px;
   box-sizing: border-box;
-  border-radius: 0px 15px 15px 0px;
   filter: drop-shadow(2px 0 5px rgba(0, 0, 0, 0.3));
 }
 
