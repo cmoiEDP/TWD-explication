@@ -1,3 +1,19 @@
-# Ignore VS Code workspace settings and GitHub workflow/configs
+# VS Code workspace
 .vscode/
+
+# GitHub workflows & configs
 .github/
+
+# Node modules
+node_modules/
+
+# Environment variables (API keys, etc.)
+.env
+
+# Package locks & metadata
+package-lock.json
+package.json
+
+# Build outputs
+out/
+dist/
