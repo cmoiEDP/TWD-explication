@@ -217,3 +217,24 @@ a {
 .welcome-message h1 {
   text-align : center;
 }
+.casting {
+  display: flex;
+  flex-direction: column;
+  background-color: #222;
+  border-radius: 10px;
+  padding: 15px;
+  margin: 10px;
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.actor-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-radius: 10px;
+  padding: 15px;
+  margin: 10px;
+  width: 100%;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
