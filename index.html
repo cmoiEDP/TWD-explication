@@ -40,163 +40,240 @@
     const params = new URLSearchParams(window.location.search);
     const page = params.get("page") || "landing-page";
     const mainPanel = document.querySelector(".main_panel");
+    let actorsData = [];
 
-    switch (page) {
-      case "landing-page":
-        mainPanel.innerHTML = `
-          <div class="welcome-message">
-            <h1>Bienvenue sur la page d’accueil</h1>
-          </div>
-          <div class="warning">
-          <button class="close-warning">✖</button>
-          <p>
-          Ce site contient beaucoup de spoilers sur la série The Walking Dead. Soyez prudent si vous n'êtes pas à jour avec la série !
-          </p>
-          <p>Les dits spoilers seront masqués jusqu'au survol.</p>
-          <p>Voici un spoiler</p> <span class="spoiler"> Gabriel & Ruben </span>
-          </div>
-          <div class="content">
-          <p> Voici une liste de tout ce qui est present sur le site :</p>
-          <ul>
-            <li>Des explications détaillées sur chaque saison de The Walking Dead.</li>
-            <li>Des informations sur le casting et les acteurs de la série.</li>
-            <li> Et beaucoup de spoilers ! </li>
-          </ul>
-          </div>
-          <div class="nav_button">
-            <button class="next-btn" onclick="window.location.href='?page=s01'">Commencer par le commencement</button>
-          </div>
-            `;
-        break;
-      case "acteur":
-        mainPanel.innerHTML = `
-          <h1>Casting</h1>
-          <p>Envoyez-nous un message via le formulaire ci-dessous.</p>
-        `;
-        break;
-      case "lore":
-        mainPanel.innerHTML = `
-          <h1>le Lore</h1>
-          <p>un lore </p>
-        `;
-        break;
-      case "s01":
-        mainPanel.innerHTML = `
-          <h1 class="s01">La Saison 1</h1>
-            <div class="casting-card">
-            <h2> les personage principaux :</H2>
-              <div class="casting">
-                <div class="actor-card">
-                  <div class="rick-grimes" id="actor-profile">
-                    <img src="src/img/s01/rick.jpg" alt="Rick Grimes"/>
-                  <h3>Rick Grimes</h3><div></div>
-                  <p>Le protagoniste principal.</p>
-                  </div>
-                  <div class="Shane-walsh" id="actor-profile">
-                    <img src="src/img/s01/shane.jpg" alt="shane Walsh" />
-                    <h3>Shane walsh</h3>
-                    <p>Meilleur ami de Rick.</p>
-                  </div>
-                  <div class="Glenn" id="actor-profile">
-                    <img src="src/img/s01/gleen.jpg" alt="Glenn"/>
-                  <h3>Gleen Rhee</h3>
-                  <p> Juste un livreur de pizza </p>
-                </div>
-              </div>
-          <div class=""></div>
-        `;
-        break;
-      case "s02":
-        mainPanel.innerHTML = `
-          <h1>Saison 2</h1>
-          <p>Contenu de la Saison 2.</p>
-        `;
-        break;
-      case "s03":
-        mainPanel.innerHTML = `
-          <h1>Saison 3</h1>
-          <p>Contenu de la Saison 3.</p>
-        `;
-        break;
-      case "s04":
-        mainPanel.innerHTML = `
-          <h1>Saison 4</h1>
-          <p>Contenu de la Saison 4.</p>
-        `;
-        break;
-      case "s05":
-        mainPanel.innerHTML = `
-          <h1>Saison 5</h1>
-          <p>Contenu de la Saison 5.</p>
-        `;
-        break;
-      case "s06":
-        mainPanel.innerHTML = `
-          <h1>Saison 6</h1>
-          <p>Contenu de la Saison 6.</p>
-        `;
-        break;
-      case "s07":
-        mainPanel.innerHTML = `
-          <h1>Saison 7</h1>
-          <p>Contenu de la Saison 7.</p>
-        `;
-        break;
-      case "s08":
-        mainPanel.innerHTML = `
-          <h1>Saison 8</h1>
-          <p>Contenu de la Saison 8.</p>
-        `;
-        break;
-      case "s09":
-        mainPanel.innerHTML = `
-          <h1>Saison 9</h1>
-          <p>Contenu de la Saison 9.</p>
-        `;
-        break;
-      case "s10":
-        mainPanel.innerHTML = `
-          <h1>Saison 10</h1>
-          <p>Contenu de la Saison 10.</p>
-        `;
-        break;
-      case "s11":
-        mainPanel.innerHTML = `
-          <h1>Saison 11</h1>
-          <p>Contenu de la Saison 11.</p>
-        `;
-        break;
-      case "amc":
-        mainPanel.innerHTML = `
-          <h1>AMC</h1>
-          <p>Contenu sur AMC.</p>
-        `;
-        break;
-      default:
-        mainPanel.innerHTML = `
-          <h1>404 - Page introuvable</h1>
-          <p>La page demandée n'existe pas.</p>
-        `;
-        break;
+    // Charger les données JSON
+    async function loadActorsData() {
+      try {
+        const response = await fetch('/src/json/modals.json');
+        actorsData = await response.json();
+      } catch (error) {
+        console.error('Erreur lors du chargement des données:', error);
+      }
     }
-    document.querySelectorAll('.folder .element > a').forEach(link => {
-      link.addEventListener('click', e => {
-        e.preventDefault();
-        const dropdown = link.nextElementSibling;
-        if (dropdown) {
-          dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
+
+    // Générer les cartes d'acteurs pour une saison
+    function generateActorCards(season) {
+      const seasonActors = actorsData.filter(actor => actor.season === season);
+      
+      if (seasonActors.length === 0) {
+        return '<p>Aucun acteur trouvé pour cette saison.</p>';
+      }
+
+      return seasonActors.map(actor => `
+        <div class="actor-card" data-actor="${actor.actor}">
+          <div id="actor-profile">
+            <img src="${actor.img}" alt="${actor.actor}"/>
+            <h3>${actor.actor}</h3>
+            <p>${actor.description}</p>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function renderPage() {
+      await loadActorsData();
+
+      switch (page) {
+        case "landing-page":
+          mainPanel.innerHTML = `
+            <div class="welcome-message">
+              <h1>Bienvenue sur la page d'accueil</h1>
+            </div>
+            <div class="warning">
+            <button class="close-warning">✖</button>
+            <p>
+            Ce site contient beaucoup de spoilers sur la série The Walking Dead. Soyez prudent si vous n'êtes pas à jour avec la série !
+            </p>
+            <p>Les dits spoilers seront masqués jusqu'au survol.</p>
+            <p>Voici un spoiler</p> <span class="spoiler"> Gabriel & Ruben </span>
+            </div>
+            <div class="content">
+            <p> Voici une liste de tout ce qui est present sur le site :</p>
+            <ul>
+              <li>Des explications détaillées sur chaque saison de The Walking Dead.</li>
+              <li>Des informations sur le casting et les acteurs de la série.</li>
+              <li> Et beaucoup de spoilers ! </li>
+            </ul>
+            </div>
+            <div class="nav_button">
+              <button class="next-btn" onclick="window.location.href='?page=s01'">Commencer par le commencement</button>
+            </div>
+          `;
+          break;
+        case "acteur":
+          mainPanel.innerHTML = `
+            <h1>Casting</h1>
+            <p>Envoyez-nous un message via le formulaire ci-dessous.</p>
+          `;
+          break;
+        case "lore":
+          mainPanel.innerHTML = `
+            <h1>le Lore</h1>
+            <p>un lore </p>
+          `;
+          break;
+        case "s01":
+          mainPanel.innerHTML = `
+            <h1 class="s01">La Saison 1</h1>
+            <div class="casting-card">
+              <h2>Les personnages principaux :</h2>
+              <div class="casting">
+                ${generateActorCards('s01')}
+              </div>
+            </div>
+          `;
+          break;
+        case "s02":
+          mainPanel.innerHTML = `
+            <h1>Saison 2</h1>
+            <div class="casting-card">
+              <h2>Les personnages principaux :</h2>
+              <div class="casting">
+                ${generateActorCards('s02')}
+              </div>
+            </div>
+          `;
+          break;
+        case "s03":
+          mainPanel.innerHTML = `
+            <h1>Saison 3</h1>
+            <div class="casting-card">
+              <h2>Les personnages principaux :</h2>
+              <div class="casting">
+                ${generateActorCards('s03')}
+              </div>
+            </div>
+          `;
+          break;
+        case "s04":
+          mainPanel.innerHTML = `
+            <h1>Saison 4</h1>
+            <div class="casting-card">
+              <h2>Les personnages principaux :</h2>
+              <div class="casting">
+                ${generateActorCards('s04')}
+              </div>
+            </div>
+          `;
+          break;
+        case "s05":
+          mainPanel.innerHTML = `
+            <h1>Saison 5</h1>
+            <div class="casting-card">
+              <h2>Les personnages principaux :</h2>
+              <div class="casting">
+                ${generateActorCards('s05')}
+              </div>
+            </div>
+          `;
+          break;
+        case "s06":
+          mainPanel.innerHTML = `
+            <h1>Saison 6</h1>
+            <div class="casting-card">
+              <h2>Les personnages principaux :</h2>
+              <div class="casting">
+                ${generateActorCards('s06')}
+              </div>
+            </div>
+          `;
+          break;
+        case "s07":
+          mainPanel.innerHTML = `
+            <h1>Saison 7</h1>
+            <div class="casting-card">
+              <h2>Les personnages principaux :</h2>
+              <div class="casting">
+                ${generateActorCards('s07')}
+              </div>
+            </div>
+          `;
+          break;
+        case "s08":
+          mainPanel.innerHTML = `
+            <h1>Saison 8</h1>
+            <div class="casting-card">
+              <h2>Les personnages principaux :</h2>
+              <div class="casting">
+                ${generateActorCards('s08')}
+              </div>
+            </div>
+          `;
+          break;
+        case "s09":
+          mainPanel.innerHTML = `
+            <h1>Saison 9</h1>
+            <div class="casting-card">
+              <h2>Les personnages principaux :</h2>
+              <div class="casting">
+                ${generateActorCards('s09')}
+              </div>
+            </div>
+          `;
+          break;
+        case "s10":
+          mainPanel.innerHTML = `
+            <h1>Saison 10</h1>
+            <div class="casting-card">
+              <h2>Les personnages principaux :</h2>
+              <div class="casting">
+                ${generateActorCards('s10')}
+              </div>
+            </div>
+          `;
+          break;
+        case "s11":
+          mainPanel.innerHTML = `
+            <h1>Saison 11</h1>
+            <div class="casting-card">
+              <h2>Les personnages principaux :</h2>
+              <div class="casting">
+                ${generateActorCards('s11')}
+              </div>
+            </div>
+          `;
+          break;
+        case "amc":
+          mainPanel.innerHTML = `
+            <h1>AMC</h1>
+            <p>Contenu sur AMC.</p>
+          `;
+          break;
+        default:
+          mainPanel.innerHTML = `
+            <h1>404 - Page introuvable</h1>
+            <p>La page demandée n'existe pas.</p>
+          `;
+          break;
+      }
+
+      // Attacher les événements après le rendu
+      attachEventListeners();
+    }
+
+    function attachEventListeners() {
+      document.querySelectorAll('.folder .element > a').forEach(link => {
+        link.addEventListener('click', e => {
+          e.preventDefault();
+          const dropdown = link.nextElementSibling;
+          if (dropdown) {
+            dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
+          }
+        });
+      });
+
+      document.addEventListener('click', e => {
+        if (!e.target.closest('.folder .element')) {
+          document.querySelectorAll('.dropdown').forEach(d => d.style.display = 'none');
         }
       });
-    });
-    document.addEventListener('click', e => {
-      if (!e.target.closest('.folder .element')) {
-        document.querySelectorAll('.dropdown').forEach(d => d.style.display = 'none');
-      }
-    });
-    document.querySelector('.close-warning')?.addEventListener('click', () => {
-      document.querySelector('.warning').remove();
-    });
-    (function() {
+
+      document.querySelector('.close-warning')?.addEventListener('click', () => {
+        document.querySelector('.warning').remove();
+      });
+
+      // Navigation entre saisons
       const totalSeasons = 11;
       const navContainer = document.createElement("div");
       navContainer.className = "nav_button";
@@ -220,14 +297,69 @@
         navContainer.innerHTML = navHTML;
         mainPanel.appendChild(navContainer);
       }
-    })();
-    const currentSeason = params.get("page");
-if (currentSeason && currentSeason.startsWith("s")) {
-  const link = document.querySelector(`.dropdown a[href='?page=${currentSeason}']`);
-  if (link) {
-link.id = "active-tab";
-  }
-}
+
+      // Active tab
+      const currentSeason = params.get("page");
+      if (currentSeason && currentSeason.startsWith("s")) {
+        const link = document.querySelector(`.dropdown a[href='?page=${currentSeason}']`);
+        if (link) {
+          link.id = "active-tab";
+        }
+      }
+
+      // Attacher les modals
+      refreshCastingModals();
+    }
+
+    function attachModalToCasting() {
+      const actorCards = document.querySelectorAll(".actor-card");
+      actorCards.forEach(card => {
+        card.style.cursor = "pointer";
+
+        card.addEventListener("click", (e) => {
+          const clickedCard = e.currentTarget;
+          const actorName = clickedCard.getAttribute('data-actor');
+          const actorInfo = actorsData.find(a => a.actor === actorName);
+
+          if (actorInfo) {
+            openModal(actorInfo);
+          }
+        });
+      });
+    }
+
+    function openModal(actor) {
+      let modal = document.getElementById("modal");
+      if (!modal) {
+        modal = document.createElement("div");
+        modal.id = "modal";
+        modal.classList.add("modal");
+        document.body.appendChild(modal);
+      }
+
+      modal.innerHTML = `
+        <div class="modal-content">
+          <button class="close-modal">×</button>
+          <img src="${actor.img}" alt="${actor.actor}">
+          <h2>${actor.actor}</h2>
+          <p class="description">${actor.description}</p>
+        </div>
+      `;
+
+      modal.classList.add("active");
+
+      modal.querySelector(".close-modal").addEventListener("click", () => modal.classList.remove("active"));
+      modal.addEventListener("click", e => {
+        if (e.target === modal) modal.classList.remove("active");
+      });
+    }
+
+    function refreshCastingModals() {
+      attachModalToCasting();
+    }
+
+    // Initialiser la page
+    renderPage();
   </script>
 </body>
 </html>

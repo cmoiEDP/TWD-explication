@@ -1,0 +1,20 @@
+[
+  {
+    "season": "s01",
+    "actor": "Rick Grimes",
+    "description": "Le protagoniste principal",
+    "img": "src/img/s01/rick.jpg"
+  },
+  {
+    "season": "s01",
+    "actor": "Shane Walsh",
+    "description": "Meilleur ami de Rick",
+    "img": "src/img/s01/shane.jpg"
+  },
+  {
+    "season": "s01",
+    "actor": "Glenn Rhee",
+    "description": "Juste un livreur de pizza",
+    "img": "src/img/s01/gleen.jpg"
+  }
+]

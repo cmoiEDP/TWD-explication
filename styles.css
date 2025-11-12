@@ -219,7 +219,7 @@ a {
 }
 .casting {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   height: auto;
   background-color: #222;
   border-radius: 10px;
@@ -271,3 +271,97 @@ a {
   border-radius: 10px;
   text-align: center;
 }
+.modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.85);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-content {
+  background: #111;
+  border-radius: 20px;
+  padding: 40px 30px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  text-align: center;
+  position: relative;
+  border: 1px solid #667eea;
+  animation: modalSlide 0.3s ease;
+}
+
+@keyframes modalSlide {
+  from { opacity: 0; transform: translateY(-30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ------------------ Bouton fermer ------------------ */
+.close-modal {
+  position: absolute;
+  top: 15px; right: 15px;
+  background: transparent;
+  border: none;
+  color: #888;
+  font-size: 28px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close-modal:hover {
+  color: #fff;
+}
+
+.modal-content img {
+  display: block;
+  margin: 0 auto 20px auto;
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+/* ------------------ Titre et description ------------------ */
+.modal-content h2 {
+  font-size: 28px;
+  margin-bottom: 15px;
+  color: #fff;
+}
+
+.modal-content p.description {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #aaa;
+}
+
+/* ------------------ Responsive ------------------ */
+@media (max-width: 600px) {
+  .modal-content {
+    padding: 20px;
+  }
+
+  .modal-content img {
+    width: 150px;
+    height: 150px;
+  }
+
+  .modal-content h2 {
+    font-size: 22px;
+  }
+
+  .modal-content p.description {
+    font-size: 14px;
+  }
+}
+
