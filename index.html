@@ -45,7 +45,7 @@
     // Charger les données JSON
     async function loadActorsData() {
   try {
-    const response = await fetch('/src/json/modals.json');
+    const response = await fetch('https://cmoiedp.github.io/TWD-explication/src/json/modals.json');
     actorsData = await response.json();
     console.log('✅ Données chargées:', actorsData); // AJOUTEZ CECI
   } catch (error) {
@@ -370,3 +370,4 @@ function generateActorCards(season) {
 </body>
 
 </html>
+
