@@ -44,32 +44,38 @@
 
     // Charger les données JSON
     async function loadActorsData() {
-      try {
-        const response = await fetch('/src/json/modals.json');
-        actorsData = await response.json();
-      } catch (error) {
-        console.error('Erreur lors du chargement des données:', error);
-      }
-    }
+  try {
+    const response = await fetch('/src/json/modals.json');
+    actorsData = await response.json();
+    console.log('✅ Données chargées:', actorsData); // AJOUTEZ CECI
+  } catch (error) {
+    console.error('❌ Erreur lors du chargement des données:', error);
+  }
+}
 
-    // Générer les cartes d'acteurs pour une saison
-    function generateActorCards(season) {
-      const seasonActors = actorsData.filter(actor => actor.season === season);
-      
-      if (seasonActors.length === 0) {
-        return '<p>Aucun acteur trouvé pour cette saison.</p>';
-      }
+// Modifiez la fonction generateActorCards
+function generateActorCards(season) {
+  console.log('🔍 Recherche pour la saison:', season); // AJOUTEZ CECI
+  console.log('📊 Données disponibles:', actorsData); // AJOUTEZ CECI
+  
+  const seasonActors = actorsData.filter(actor => actor.season === season);
+  
+  console.log('🎭 Acteurs trouvés:', seasonActors); // AJOUTEZ CECI
+  
+  if (seasonActors.length === 0) {
+    return '<p>Aucun acteur trouvé pour cette saison.</p>';
+  }
 
-      return seasonActors.map(actor => `
-        <div class="actor-card" data-actor="${actor.actor}">
-          <div id="actor-profile">
-            <img src="${actor.img}" alt="${actor.actor}"/>
-            <h3>${actor.actor}</h3>
-            <p>${actor.description}</p>
-          </div>
-        </div>
-      `).join('');
-    }
+  return seasonActors.map(actor => `
+    <div class="actor-card" data-actor="${actor.actor}">
+      <div id="actor-profile">
+        <img src="${actor.img}" alt="${actor.actor}"/>
+        <h3>${actor.actor}</h3>
+        <p>${actor.description}</p>
+      </div>
+    </div>
+  `).join('');
+}
 
     async function renderPage() {
       await loadActorsData();
@@ -362,4 +368,5 @@
     renderPage();
   </script>
 </body>
+
 </html>
