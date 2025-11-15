@@ -409,3 +409,39 @@ a {
 .sum-content img {
   user-select: none;
 }
+
+/* 
+--------------------------------------------------------------------------------
+                            Tooltips
+--------------------------------------------------------------------------------
+*/
+.tooltip {
+  position: relative;
+  cursor: pointer;
+  color: #1e90ff;
+  border-bottom: 1px dotted #1e90ff;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 220px;
+  background-color: #333;
+  color: #fff;
+  text-align: left;
+  padding: 5px 10px;
+  border-radius: 5px;
+  
+  position: absolute;
+  z-index: 10;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}

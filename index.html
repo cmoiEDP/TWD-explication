@@ -307,6 +307,7 @@ function generateActorCards(season) {
 
       // Attacher les événements après le rendu
       attachEventListeners();
+      addTooltips();
     }
 
     function attachEventListeners() {
@@ -420,11 +421,139 @@ function generateActorCards(season) {
     function refreshCastingModals() {
       attachModalToCasting();
     }
+const tooltips = {
+  "Rick": "Shérif adjoint, leader du groupe",
+  "Rick Grimes": "Shérif adjoint, leader du groupe",
+  "Daryl": "Chasseur et traqueur expert à l’arbalète",
+  "Daryl Dixon": "Chasseur et traqueur expert à l’arbalète",
+  "Michonne": "Guerrière au katana",
+  "Michonne Hawthorne": "Guerrière au katana",
+  "Carol": "Combattante impitoyable et stratège",
+  "Carol Peletier": "Combattante impitoyable et stratège",
+  "Glenn": "Livreur de pizzas devenu explorateur courageux",
+  "Glenn Rhee": "Livreur de pizzas devenu explorateur courageux",
+  "Maggie": "Leader de Hilltop",
+  "Maggie Rhee": "Leader de Hilltop",
+  "Maggie Greene": "Leader de Hilltop",
+  "Negan": "Leader charismatique et brutal des Sauveurs",
+  "Negan Smith": "Leader charismatique et brutal des Sauveurs",
+  "Carl": "Fils de Rick",
+  "Carl Grimes": "Fils de Rick",
+  "Judith": "Fille de Rick et Michonne",
+  "Judith Grimes": "Fille de Rick et Michonne",
+  "Morgan": "Maître du bâton, « toute vie est précieuse »",
+  "Morgan Jones": "Maître du bâton, « toute vie est précieuse »",
+  "Lori": "Épouse de Rick",
+  "Lori Grimes": "Épouse de Rick",
+  "Shane": "Meilleur ami et rival de Rick",
+  "Shane Walsh": "Meilleur ami et rival de Rick",
+  "Andrea": "Tireuse d’élite",
+  "Dale": "Conscience morale du groupe",
+  "T-Dog": "Membre loyal du groupe d’Atlanta",
+  "Merle": "Frère aîné de Daryl",
+  "Merle Dixon": "Frère aîné de Daryl",
+  "Hershel": "Vétérinaire et patriarche",
+  "Hershel Greene": "Vétérinaire et patriarche",
+  "Beth": "Fille cadette d’Hershel, chanteuse",
+  "Beth Greene": "Fille cadette d’Hershel, chanteuse",
+  "Gouverneur": "Leader tyrannique de Woodbury",
+  "Le Gouverneur": "Leader tyrannique de Woodbury",
+  "Philip Blake": "Leader tyrannique de Woodbury",
+  "Sasha": "Tireuse d’élite",
+  "Sasha Williams": "Tireuse d’élite",
+  "Tyreese": "Force tranquille du groupe",
+  "Tyreese Williams": "Force tranquille du groupe",
+  "Abraham": "Sergent costaud et sarcastique",
+  "Abraham Ford": "Sergent costaud et sarcastique",
+  "Rosita": "Combattante et mère de Coco",
+  "Rosita Espinosa": "Combattante et mère de Coco",
+  "Eugene": "Scientifique mullet et fabricant de munitions",
+  "Eugène": "Scientifique mullet et fabricant de munitions",
+  "Eugene Porter": "Scientifique mullet et fabricant de munitions",
+  "Jesus": "Scout et combattant expert de Hilltop",
+  "Paul Rovia": "Scout et combattant expert de Hilltop",
+  "Ezekiel": "Roi du Royaume",
+  "Roi Ezekiel": "Roi du Royaume",
+  "Jerry": "Bras droit loyal et jovial d’Ezekiel",
+  "Alpha": "Leader des Chuchoteurs",
+  "Beta": "Bras droit massif d’Alpha",
+  "Lydia": "Fille d’Alpha",
+  "Gamma": "Espionne des Chuchoteurs (Mary)",
+  "Aaron": "Recruteur d’Alexandria",
+  "Gabriel": "Prêtre devenu guerrier",
+  "Gabriel Stokes": "Prêtre devenu guerrier",
+  "Princess": "Survivante excentrique et énergique",
+  "Juanita Sanchez": "Survivante excentrique et énergique",
+  "Pamela Milton": "Gouverneure du Commonwealth",
+  "Mercer": "Commandant de l’armée du Commonwealth",
+  "Lance Hornsby": "Bras droit manipulateur de Pamela",
+  "Alexandria": "Communauté fortifiée, refuge principal",
+  "La Zone sûre d’Alexandria": "Communauté fortifiée, refuge principal",
+  "Hilltop": "Colonie agricole dirigée un temps par Maggie",
+  "La Colline": "Colonie agricole dirigée un temps par Maggie",
+  "Le Royaume": "Communauté monarchique d’Ezekiel",
+  "Kingdom": "Communauté monarchique d’Ezekiel",
+  "Sanctuaire": "Base industrielle des Sauveurs",
+  "Le Sanctuaire": "Base industrielle des Sauveurs",
+  "Woodbury": "Ville fortifiée du Gouverneur",
+  "Terminus": "Piège mortel des cannibales",
+  "Commonwealth": "Immense cité de 50 000 habitants",
+  "Le Commonwealth": "Immense cité de 50 000 habitants",
+  "Prison": "Refuge du groupe saisons 3-4",
+  "La Prison": "Refuge du groupe saisons 3-4",
+  "Atlanta": "Ville d’origine, saison 1"
+};
 
-    // Initialiser la page
-    renderPage();
+function addTooltips() {
+  const container = document.querySelector(".sum-content");
+  if (!container) return;
+
+  const keys = Object.keys(tooltips).sort((a, b) => b.length - a.length);
+  const pattern = keys.map(k => k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join("|");
+  const regex = new RegExp(`(?<!\\p{L})(${pattern})(?!\\p{L})`, "giu");
+
+  const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null, false);
+  const textNodes = [];
+  while (walker.nextNode()) textNodes.push(walker.currentNode);
+
+  textNodes.forEach(node => {
+    const parent = node.parentNode;
+    if (parent.closest(".tooltip")) return;
+
+    const text = node.nodeValue;
+    if (!regex.test(text)) return;
+    regex.lastIndex = 0;
+
+    const frag = document.createDocumentFragment();
+    let last = 0;
+    let m;
+    while ((m = regex.exec(text)) !== null) {
+      const start = m.index;
+      if (start > last) frag.appendChild(document.createTextNode(text.slice(last, start)));
+
+      const word = m[1];
+      const key = keys.find(k => k.toLowerCase() === word.toLowerCase());
+
+      const span = document.createElement("span");
+      span.className = "tooltip";
+      span.textContent = word;
+
+      const tip = document.createElement("span");
+      tip.className = "tooltiptext";
+      tip.textContent = tooltips[key];
+      span.appendChild(tip);
+
+      frag.appendChild(span);
+      last = start + word.length;
+    }
+
+    if (last < text.length) frag.appendChild(document.createTextNode(text.slice(last)));
+
+    parent.replaceChild(frag, node);
+  });
+}
+    renderPage();   
   </script>
 </body>
-
 </html>
 
