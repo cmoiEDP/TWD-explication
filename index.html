@@ -559,7 +559,7 @@ function addTooltips() {
 }
 async function sendChoice(season, choice) {
   try {
-    const res = await fetch("https://TON_SITE_VERCEL.vercel.app/api/update", {
+    const res = await fetch("https://sheet-snt.vercel.app/.vercel.app/api/update", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ season, choice })
